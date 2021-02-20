@@ -7,8 +7,6 @@ This Android application was created as a part of the CodePath Intro to Mobile D
 App displays one question with three answer choices. Correct choice lights up green, and incorrect choices show up as red. There is also the option to hide the choices and click on the question card to show the answer.
 
 ### App Walk-though
-`TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README. (☝️ Remove this paragraph after after adding gif)
-
 <img src="codepath-lab-1.gif" width=200><br>
 
 ## Required
