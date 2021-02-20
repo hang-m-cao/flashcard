@@ -2,24 +2,94 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/flashcard_question"
+        android:id="@+id/answer1"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:gravity="center"
-        android:text="@string/question1"
-        android:textSize="40sp" />
-
-    <TextView
-        android:id="@+id/flashcard_answer"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/card_background"
+        android:backgroundTint="@color/light_green"
+        android:elevation="5dp"
         android:gravity="center"
         android:text="@string/answer1"
+        android:textColor="@color/black"
         android:textSize="40sp"
-        android:visibility="invisible"/>
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/question1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/card_background"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="@string/question1"
+        android:textColor="@color/dark_blue"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/choice1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/question1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/purple_200"
+        android:text="@string/choice1"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/choice2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/choice1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/purple_200"
+        android:text="@string/choice2"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/answer1_choice"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/choice2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/purple_200"
+        android:text="@string/answer1"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:textColor="@color/white"/>
+
+    <ToggleButton
+        android:id="@+id/view_choices"
+        android:layout_width="156dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/answer1_choice"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/purple_500"
+        android:textColor="@color/white"
+        android:textOff="@string/hide_choices"
+        android:textOn="@string/view_choices"
+        android:textSize="18sp" />
+
 </RelativeLayout>

@@ -2,4 +2,8 @@
     <string name="app_name">Flashcard</string>
     <string name="question1">Who is the 44th President of the United States?</string>
     <string name="answer1">Barack Obama</string>
+    <string name="choice1">Bill Nye</string>
+    <string name="choice2">Mr. Rogers</string>
+    <string name="hide_choices">Hide Choices</string>
+    <string name="view_choices">View Choices</string>
 </resources>
