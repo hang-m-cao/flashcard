@@ -6,4 +6,7 @@
     <string name="choice2">Mr. Rogers</string>
     <string name="hide_choices">Hide Choices</string>
     <string name="view_choices">View Choices</string>
+    <string name="add_question">Enter the question</string>
+    <string name="add_answer">Enter the correct answer</string>
+    <string name="add_choice">Enter another answer choice</string>
 </resources>
