@@ -6,7 +6,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,13 +19,13 @@ import android.widget.ToggleButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     private boolean choicesShow;
     private TextView question;
     private TextView answer;
     private ArrayList<TextView> choices;
-    private ToggleButton viewChoices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
         TextView answerChoice = findViewById(R.id.answer1_choice);
         TextView choice1 = findViewById(R.id.choice1);
         TextView choice2 = findViewById(R.id.choice2);
-        viewChoices = findViewById(R.id.view_choices);
+        ToggleButton viewChoices = findViewById(R.id.view_choices);
         ImageButton addBtn = findViewById(R.id.add_button);
+        ImageButton editBtn = findViewById(R.id.edit_button);
         choicesShow = true;
 
         choices = new ArrayList<>();
@@ -66,7 +71,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 choicesShow = !choicesShow;
-                hideChoices(choicesShow);
+                if(choicesShow){
+                    viewVisibility = View.VISIBLE;
+                }
+                else{
+                    viewVisibility = View.INVISIBLE;
+                }
+                for(int i = 0; i < choices.size(); i++){
+                    choices.get(i).setVisibility(viewVisibility);
+                }
             }
         });
 
@@ -95,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(intent, 100);
             }
         });
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void wrongClick(View v){
@@ -111,34 +131,29 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
 
-    public void hideChoices(Boolean choicesShow){
-        int viewVisibility;
-        if(choicesShow){
-            viewVisibility = View.VISIBLE;
-        }
-        else{
-            viewVisibility = View.INVISIBLE;
-        }
-        for(int i = 0; i < choices.size(); i++){
-            choices.get(i).setVisibility(viewVisibility);
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null && requestCode == RESULT_OK){
+        Log.d("adding new","intent started");
+        if (data != null && resultCode == RESULT_OK) {
+            Log.d("adding new", "data received");
             String new_question = data.getExtras().getString("question");
-            String new_answer = data.getExtras().getString("answer");
+            ArrayList<String> new_options = data.getExtras().getStringArrayList("options");
             question.setText(new_question);
-            answer.setText(new_answer);
+            answer.setText(new_options.get(0));
+            Log.d("adding new", new_question);
+            setChoices(new_options);
+            question.setVisibility(View.VISIBLE);
             answer.setVisibility(View.INVISIBLE);
-            viewChoices.setVisibility(View.INVISIBLE);
-            choicesShow = false;
-            hideChoices(choicesShow);
-            Snackbar.make(findViewById(R.id.screen),
-                    "New flashcard added!",
-                    Snackbar.LENGTH_SHORT)
-                    .show();
+
+            Snackbar.make(findViewById(R.id.screen),"New flashcard added!", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setChoices(ArrayList<String> options){
+        //TODO: randomize choices
+        for(int i = 0; i < choices.size(); i++){
+            choices.get(i).setText(options.get(i));
         }
     }
 }
