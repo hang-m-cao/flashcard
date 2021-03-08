@@ -4,11 +4,10 @@ This Android application was created as a part of the CodePath Intro to Mobile D
 ## Lab 2
 
 ### App Description
-Users can now change the current flashcard displayed by adding a new flashcard with its questions, answers, and choices or by editing the current card. 
+Users can now change the current flashcard displayed by adding a new flashcard with its corresponding questions, answers, and choices or by editing the current card. A notification will display on the bottom of the screen with a message signaling whether the flashcard was edited or created.
 
 ### App Walk-though
-`TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README. (☝️ Remove this paragraph after after adding gif)
-
+`TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README.
 <img src="YOUR_GIF_URL_HERE" width=200><br>
 
 ## Required
@@ -19,7 +18,7 @@ Users can now change the current flashcard displayed by adding a new flashcard w
 - [x] Push your progress to GitHub!
 
 ## Optional
-- [ ] User can edit a card
+- [x] User can edit a card
 - [x] An error message is shown if the user doesn't enter both a Question and an Answer
 - [x] A notification is shown if the card was created successfully
 - [x] User can also enter multiple choice answers when creating a card
