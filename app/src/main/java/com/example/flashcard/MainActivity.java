@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     viewVisibility = View.INVISIBLE;
                 }
-                for(int i = 0; i < choices.size(); i++){
-                    choices.get(i).setVisibility(viewVisibility);
+                for(TextView c : choices ){
+                    c.setVisibility(viewVisibility);
                 }
             }
         });
@@ -105,14 +105,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
-                MainActivity.this.startActivityForResult(intent, 100);
+                MainActivity.this.startActivityForResult(intent, 1);
             }
         });
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+                intent.putExtra("question", question.getText());
+                intent.putExtra("choices", getChoices());
+                MainActivity.this.startActivityForResult(intent, 5);
             }
         });
     }
@@ -134,19 +137,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("adding new","intent started");
+        String display = "";
         if (data != null && resultCode == RESULT_OK) {
-            Log.d("adding new", "data received");
             String new_question = data.getExtras().getString("question");
             ArrayList<String> new_options = data.getExtras().getStringArrayList("options");
             question.setText(new_question);
             answer.setText(new_options.get(0));
-            Log.d("adding new", new_question);
             setChoices(new_options);
             question.setVisibility(View.VISIBLE);
             answer.setVisibility(View.INVISIBLE);
-
-            Snackbar.make(findViewById(R.id.screen),"New flashcard added!", Snackbar.LENGTH_SHORT).show();
+            if(requestCode == 1){
+                display = "New flashcard added!";
+            }
+            else if (requestCode == 5){
+                display = "Flashcard updated!";
+            }
+            Snackbar.make(findViewById(R.id.screen),display, Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -156,4 +162,13 @@ public class MainActivity extends AppCompatActivity {
             choices.get(i).setText(options.get(i));
         }
     }
+
+    private ArrayList<String> getChoices(){
+        ArrayList<String> choicesText = new ArrayList<>();
+        for(TextView c: choices){
+            choicesText.add(c.getText().toString());
+        }
+        return choicesText;
+    }
+
 }

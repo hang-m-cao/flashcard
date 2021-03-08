@@ -29,6 +29,16 @@ public class AddCardActivity extends AppCompatActivity {
         options.add((findViewById(R.id.answer)));
         options.add((findViewById(R.id.option1)));
         options.add((findViewById(R.id.option2)));
+        Intent intent = getIntent();
+
+        if(intent.hasExtra("question") && intent.hasExtra("choices")){
+            String new_q = intent.getExtras().getString("question");
+            ArrayList<String> new_choices = intent.getExtras().getStringArrayList("choices");
+            question.setText(new_q);
+            for(int i = 0; i < new_choices.size(); i++){
+                options.get(i).setText(new_choices.get(i));
+            }
+        }
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +58,7 @@ public class AddCardActivity extends AppCompatActivity {
                     intent.putExtra("question", questionText);
                     intent.putExtra("options", optionText);
                     setResult(RESULT_OK, intent);
-                    AddCardActivity.this.startActivityForResult(intent, RESULT_OK);
+                    finish();
                 }
                 else if (questionText.isEmpty()){
                     Toast.makeText(AddCardActivity.this, "Please enter a question.",Toast.LENGTH_SHORT).show();
@@ -61,11 +71,6 @@ public class AddCardActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
     }
 
     private int textEmpty(ArrayList<EditText> text, ArrayList<String> optionText){
