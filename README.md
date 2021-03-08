@@ -30,7 +30,7 @@ Users can now change the current flashcard displayed by adding a new flashcard w
 App displays one question with three answer choices. Correct choice lights up green, and incorrect choices show up as red. There is also the option to hide the choices and click on the question card to show the answer.
 
 ### App Walk-though
-<img src="codepath-lab-1.gif" width=200><br>
+<img src="walkthroughs/codepath-lab-1.gif" width=200><br>
 
 ## Required
 - [x] Create New Project in Android Studio
