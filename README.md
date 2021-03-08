@@ -7,8 +7,7 @@ This Android application was created as a part of the CodePath Intro to Mobile D
 Users can now change the current flashcard displayed by adding a new flashcard with its corresponding questions, answers, and choices or by editing the current card. A notification will display on the bottom of the screen with a message signaling whether the flashcard was edited or created.
 
 ### App Walk-though
-`TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README.
-<img src="YOUR_GIF_URL_HERE" width=200><br>
+<img src="walkthroughs/lab-2.gif" width=200><br>
 
 ## Required
 - [x] User can click on a ‘+’ button that takes the user to new ‘Add Card Screen’
