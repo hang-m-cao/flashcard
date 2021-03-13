@@ -114,4 +114,32 @@
         android:background="@color/white"
         app:srcCompat="@drawable/ic_edit_icon" />
 
+    <ImageButton
+        android:id="@+id/next"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="134dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/view_choices"
+        android:background="@color/white"
+        android:rotation="180"
+        app:srcCompat="?attr/actionModeCloseDrawable"
+        android:layout_below="@id/answer1_choice"/>
+
+    <ImageButton
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        app:srcCompat="@android:drawable/ic_menu_delete"
+        android:background="@color/white"
+        android:layout_below="@id/view_choices"
+        android:layout_marginTop="40dp" />
+
 </RelativeLayout>

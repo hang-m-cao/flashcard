@@ -52,7 +52,7 @@ public class AddCardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int emptyIndex = textEmpty(options, optionText);
                 String questionText = question.getText().toString();
-                Log.d("emptyIndex", Integer.toString(emptyIndex));
+
                 if(emptyIndex == -1 && !questionText.isEmpty()){
                     Intent intent = new Intent(AddCardActivity.this, MainActivity.class);
                     intent.putExtra("question", questionText);
