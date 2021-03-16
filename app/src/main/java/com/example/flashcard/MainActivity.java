@@ -2,15 +2,11 @@ package com.example.flashcard;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +15,6 @@ import android.widget.ToggleButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -44,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
         flashcardDatabase = new FlashcardDatabase(getApplicationContext());
 
-        question = findViewById(R.id.question1);
-        answer = findViewById(R.id.answer1);
-        answerChoice = findViewById(R.id.answer1_choice);
+        question = findViewById(R.id.question_card);
+        answer = findViewById(R.id.answer_card);
+        answerChoice = findViewById(R.id.answer_choice);
         choice1 = findViewById(R.id.choice1);
         choice2 = findViewById(R.id.choice2);
         choicesShow = true;
@@ -65,14 +60,6 @@ public class MainActivity extends AppCompatActivity {
         ImageButton editBtn = findViewById(R.id.edit_button);
         next = findViewById(R.id.next);
         ImageButton delete = findViewById(R.id.delete);
-
-        if(allFlashcards.size() <= 1){
-            next.setVisibility(View.INVISIBLE);
-            if(allFlashcards.size() == 0){
-                flashcardDatabase.initFirstCard();
-                allFlashcards = flashcardDatabase.getAllCards();
-            }
-        }
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!choicesShow){
-                    answer.setVisibility(View.VISIBLE);
                     question.setVisibility(View.INVISIBLE);
                 }
             }
@@ -147,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 question.setVisibility(View.VISIBLE);
-                answer.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -191,16 +176,17 @@ public class MainActivity extends AppCompatActivity {
             String new_question = data.getExtras().getString("question");
             ArrayList<String> new_options = data.getExtras().getStringArrayList("options");
             question.setVisibility(View.VISIBLE);
-            answer.setVisibility(View.INVISIBLE);
             if(requestCode == 1){
                 flashcardDatabase.insertCard(new Flashcard(new_question, new_options.get(0), new_options.get(1), new_options.get(2)));
                 display = "New flashcard added!";
-                if(next.getVisibility() == View.INVISIBLE){
+                if(allFlashcards.size() > 1){
                     next.setVisibility(View.VISIBLE);
                 }
             }
             else if (requestCode == 5){
-                flashcardDatabase.updateCard(new Flashcard(new_question, new_options.get(0), new_options.get(1), new_options.get(2)));
+                Flashcard cardToEdit = allFlashcards.get(flashCardIndex);
+                updateCard(cardToEdit, new_question, new_options);
+                flashcardDatabase.updateCard(cardToEdit);
                 display = "Flashcard updated!";
             }
             allFlashcards = flashcardDatabase.getAllCards();
@@ -209,9 +195,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showCard(){
-        if(allFlashcards.isEmpty()){
-            Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
-            MainActivity.this.startActivityForResult(intent, 1);
+        if(allFlashcards.size() <= 1){
+            next.setVisibility(View.INVISIBLE);
+            if(allFlashcards.isEmpty()){
+//              Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+//              MainActivity.this.startActivityForResult(intent, 1);
+                flashcardDatabase.initFirstCard();
+                allFlashcards = flashcardDatabase.getAllCards();
+            }
+        }
+        else{
+            next.setVisibility(View.VISIBLE);
         }
 
         if(flashCardIndex > allFlashcards.size() - 1){
@@ -241,6 +235,14 @@ public class MainActivity extends AppCompatActivity {
             newIndex = random.nextInt(max);
         }
         return newIndex;
+    }
+
+    private void updateCard(Flashcard f, String q, ArrayList<String> options){
+        f.setQuestion(q);
+        f.setAnswer(options.get(0));
+        f.setWrongAnswer1(options.get(1));
+        f.setWrongAnswer2(options.get(2));
+        showCard();
     }
 
 }

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class AddCardActivity extends AppCompatActivity {
-    ArrayList<String> optionText = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +49,13 @@ public class AddCardActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int emptyIndex = textEmpty(options, optionText);
+                int emptyIndex = textEmpty(options);
                 String questionText = question.getText().toString();
 
                 if(emptyIndex == -1 && !questionText.isEmpty()){
                     Intent intent = new Intent(AddCardActivity.this, MainActivity.class);
                     intent.putExtra("question", questionText);
-                    intent.putExtra("options", optionText);
+                    intent.putExtra("options", getOptionText(options));
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -73,16 +72,20 @@ public class AddCardActivity extends AppCompatActivity {
         });
     }
 
-    private int textEmpty(ArrayList<EditText> text, ArrayList<String> optionText){
+    private int textEmpty(ArrayList<EditText> text){
         for(int i = 0; i < text.size(); i++){
-            String t = text.get(i).getText().toString();
-            if(t.isEmpty()){
+            if(text.get(i).getText().toString().isEmpty()){
                 return i;
-            }
-            else{
-                optionText.add(t);
             }
         }
         return -1;
+    }
+
+    private ArrayList<String> getOptionText(ArrayList<EditText> text){
+        ArrayList<String> optionText = new ArrayList<>();
+        for(EditText t : text){
+            optionText.add(t.getText().toString());
+        }
+        return optionText;
     }
 }
