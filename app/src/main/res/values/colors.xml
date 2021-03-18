@@ -11,4 +11,9 @@
     <color name="light_blue">#7BDAE3</color>
     <color name="dark_blue">#014287</color>
     <color name="red">#E35A5A</color>
+    <color name="light_rose_pink">#F4E5E7</color>
+    <color name="rose_pink">#EFD3D7</color>
+    <color name="mantee">#8E9AAF</color>
+    <color name="lavender">#DEE2FF</color>
+    <color name="violet">#CBC0D3</color>
 </resources>
