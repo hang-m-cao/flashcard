@@ -4,7 +4,7 @@ This Android application was created as a part of the CodePath Intro to Mobile D
 ## Lab 3
 
 ### App Description
-`TODO://` Add app description
+App stores all cards created and users can click through cards (if there is more than one card) in a randomized order.
 
 ### App Walk-though
 `TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README. (☝️ Remove this paragraph after after adding gif)
@@ -18,7 +18,7 @@ This Android application was created as a part of the CodePath Intro to Mobile D
 ## Optional
 - [x] User can delete a card and no longer see it in their deck anymore
 - [x] Flashcards are shown in random order instead of the order they were created in
-- [ ] User can edit a card and see the edit saved when they browse through their deck of cards
+- [x] User can edit a card and see the edit saved when they browse through their deck of cards
 - [x] User can create flashcards with multiple answers and be able to browse through cards with multiple choice answers shown
 
 ## Lab 2
