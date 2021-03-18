@@ -17,4 +17,13 @@
         android:background="@color/white"
         app:srcCompat="@drawable/ic_plus_icon" />
 
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="321dp"
+        android:layout_height="348dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_empty_state_background" />
+
 </RelativeLayout>
