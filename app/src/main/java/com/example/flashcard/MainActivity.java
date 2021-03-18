@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     List<Flashcard> allFlashcards;
     private int flashCardIndex;
     private int oldIndex;
+    private ArrayList<Integer> oldIndexArr;
     private ImageButton next;
 
     @Override
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         flashcardDatabase = new FlashcardDatabase(getApplicationContext());
         allFlashcards = flashcardDatabase.getAllCards();
         flashCardIndex = 0;
-        oldIndex = 0;
 
         question = findViewById(R.id.question_card);
         answer = findViewById(R.id.answer_card);
@@ -56,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                oldIndex = flashCardIndex;
-                flashCardIndex = getRandomIndex(oldIndex, allFlashcards.size());
+                flashCardIndex = getRandomIndex(flashCardIndex, allFlashcards.size());
                 showCard();
             }
         });
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flashCardIndex = oldIndex;
+                flashCardIndex = getRandomIndex(flashCardIndex, allFlashcards.size());
                 flashcardDatabase.deleteCard(question.getText().toString());
                 allFlashcards = flashcardDatabase.getAllCards();
                 showCard();
@@ -168,28 +167,31 @@ public class MainActivity extends AppCompatActivity {
                 display = "Flashcard updated!";
             }
             allFlashcards = flashcardDatabase.getAllCards();
+            showCard();
             Snackbar.make(findViewById(R.id.screen), display, Snackbar.LENGTH_SHORT).show();
         }
     }
 
     private void showCard(){
-        if(allFlashcards.size() <= 1){
+        if(allFlashcards.isEmpty()){
             next.setVisibility(View.INVISIBLE);
-            if(allFlashcards.isEmpty()){
-                flashcardDatabase.initFirstCard();
-                allFlashcards = flashcardDatabase.getAllCards();
-            }
+            Intent intent = new Intent(MainActivity.this, EmptyStateActivity.class);
+            MainActivity.this.startActivityForResult(intent, 1);
         }
         else{
-            next.setVisibility(View.VISIBLE);
+            if (allFlashcards.size() == 1){
+                next.setVisibility(View.INVISIBLE);
+            }
+            else{
+                next.setVisibility(View.VISIBLE);
+            }
+            Flashcard f = allFlashcards.get(flashCardIndex);
+            question.setText(f.getQuestion());
+            answer.setText(f.getAnswer());
+            answerChoice.setText(f.getAnswer());
+            choice1.setText(f.getWrongAnswer1());
+            choice2.setText(f.getWrongAnswer2());
         }
-
-        Flashcard f = allFlashcards.get(flashCardIndex);
-        question.setText(f.getQuestion());
-        answer.setText(f.getAnswer());
-        answerChoice.setText(f.getAnswer());
-        choice1.setText(f.getWrongAnswer1());
-        choice2.setText(f.getWrongAnswer2());
     }
 
     private ArrayList<String> getChoices(TextView[] choices){
@@ -201,6 +203,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int getRandomIndex(int old, int max){
+        if(max == 1){
+            return 0;
+        }
         Random random = new Random();
         int newIndex = random.nextInt(max);
         while(newIndex == old){
