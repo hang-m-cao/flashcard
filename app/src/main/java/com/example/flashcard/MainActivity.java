@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView answerChoice;
     private TextView choice1;
     private TextView choice2;
+    Boolean choicesShow;
     FlashcardDatabase flashcardDatabase;
     List<Flashcard> allFlashcards;
     private int flashCardIndex;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         answerChoice = findViewById(R.id.answer_choice);
         choice1 = findViewById(R.id.choice1);
         choice2 = findViewById(R.id.choice2);
-        Boolean choicesShow = false;
+        choicesShow = false;
         TextView[] choices = new TextView[]{answerChoice, choice1, choice2};
 
         next = findViewById(R.id.next);
@@ -150,17 +151,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         String display = "";
         if (data != null && resultCode == RESULT_OK) {
             String new_question = data.getExtras().getString("question");
             ArrayList<String> new_options = data.getExtras().getStringArrayList("options");
             question.setVisibility(View.VISIBLE);
-            if(requestCode == 1){
+            if (requestCode == 1) {
                 flashcardDatabase.insertCard(new Flashcard(new_question, new_options.get(0), new_options.get(1), new_options.get(2)));
                 display = "New flashcard added!";
                 next.setVisibility(View.VISIBLE);
-            }
-            else if (requestCode == 5){
+            } else if (requestCode == 5) {
                 Flashcard cardToEdit = allFlashcards.get(flashCardIndex);
                 updateCard(cardToEdit, new_question, new_options);
                 flashcardDatabase.updateCard(cardToEdit);
