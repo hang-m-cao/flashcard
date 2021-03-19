@@ -19,7 +19,6 @@ public class EmptyStateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EmptyStateActivity.this, AddCardActivity.class);
                 EmptyStateActivity.this.startActivityForResult(intent, 1);
-//                EmptyStateActivity.this.startActivity(intent);
             }
         });
     }
@@ -27,8 +26,6 @@ public class EmptyStateActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Intent intent = new Intent(EmptyStateActivity.this, MainActivity.class);
-//        Intent intent = getIntent();
         if(data != null){
             setResult(RESULT_OK, data);
             finish();

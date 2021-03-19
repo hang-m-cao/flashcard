@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
     FlashcardDatabase flashcardDatabase;
     List<Flashcard> allFlashcards;
     private int flashCardIndex;
-    private int oldIndex;
-    private ArrayList<Integer> oldIndexArr;
+    private ArrayList<Integer> possibleIndex;
     private ImageButton next;
 
     @Override
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         flashcardDatabase = new FlashcardDatabase(getApplicationContext());
         allFlashcards = flashcardDatabase.getAllCards();
         flashCardIndex = 0;
+        possibleIndex = resetPossibleIndex();
 
         question = findViewById(R.id.question_card);
         answer = findViewById(R.id.answer_card);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flashCardIndex = getRandomIndex(flashCardIndex, allFlashcards.size());
+                flashCardIndex = getRandomIndex();
                 showCard();
             }
         });
@@ -64,11 +64,32 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flashCardIndex = getRandomIndex(flashCardIndex, allFlashcards.size());
+                flashCardIndex = getRandomIndex();
+                updatePossibleIndex();
                 flashcardDatabase.deleteCard(question.getText().toString());
                 allFlashcards = flashcardDatabase.getAllCards();
                 showCard();
+
                 Snackbar.make(findViewById(R.id.screen), "Flashcard deleted", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+        findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                possibleIndex.add(allFlashcards.size());
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+                MainActivity.this.startActivityForResult(intent, 1);
+            }
+        });
+
+        findViewById(R.id.edit_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+                intent.putExtra("question", question.getText());
+                intent.putExtra("choices", getChoices(choices));
+                MainActivity.this.startActivityForResult(intent, 5);
             }
         });
 
@@ -109,24 +130,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
-                MainActivity.this.startActivityForResult(intent, 1);
-            }
-        });
-
-        findViewById(R.id.edit_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
-                intent.putExtra("question", question.getText());
-                intent.putExtra("choices", getChoices(choices));
-                MainActivity.this.startActivityForResult(intent, 5);
-            }
-        });
-
         showCard();
     }
 
@@ -140,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
 
                     public void run() {
-                        btn.setBackgroundColor( getResources().getColor(R.color.purple_200));
-                        btn.setTextColor(getResources().getColor(R.color.white));
+                        btn.setBackgroundColor( getResources().getColor(R.color.light_rose_pink));
+                        btn.setTextColor(getResources().getColor(R.color.mantee));
                     }
                 }, 1000);
             }
@@ -202,15 +205,24 @@ public class MainActivity extends AppCompatActivity {
         return choicesText;
     }
 
-    private int getRandomIndex(int old, int max){
+    private int getRandomIndex(){
+        int max = allFlashcards.size();
+        int old = flashCardIndex;
+
         if(max == 1){
             return 0;
         }
-        Random random = new Random();
-        int newIndex = random.nextInt(max);
-        while(newIndex == old){
-            newIndex = random.nextInt(max);
+        if(possibleIndex.isEmpty()){
+            possibleIndex = resetPossibleIndex();
         }
+        Random random = new Random();
+        int newIndex = old;
+        int posIndex = 0;
+        while(newIndex == old){
+            posIndex = random.nextInt(possibleIndex.size());
+            newIndex = possibleIndex.get(posIndex);
+        }
+        possibleIndex.remove(posIndex);
         return newIndex;
     }
 
@@ -220,6 +232,23 @@ public class MainActivity extends AppCompatActivity {
         f.setWrongAnswer1(options.get(1));
         f.setWrongAnswer2(options.get(2));
         showCard();
+    }
+
+    private ArrayList<Integer> resetPossibleIndex(){
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i = 0; i < allFlashcards.size(); i++){
+            arr.add(i);
+        }
+        return arr;
+    }
+
+    private void updatePossibleIndex(){
+        for(int i = 0; i < possibleIndex.size(); i++){
+            int current = possibleIndex.get(i);
+            if(current > flashCardIndex){
+                possibleIndex.set(i, current - 1);
+            }
+        }
     }
 
 }
