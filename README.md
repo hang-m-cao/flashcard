@@ -7,9 +7,7 @@ This Android application was created as a part of the CodePath Intro to Mobile D
 App stores all cards created and users can click through cards (if there is more than one card) in a randomized order.
 
 ### App Walk-though
-`TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README. (☝️ Remove this paragraph after after adding gif)
-
-<img src="YOUR_GIF_URL_HERE" width=200><br>
+<img src="walkthroughs/lab-3.gif" width=200><br>
 
 ## Required
 - [x] User can create a card and still see their created card when the app is relaunched.
