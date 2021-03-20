@@ -64,10 +64,17 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flashCardIndex = getRandomIndex();
-                updatePossibleIndex();
+
                 flashcardDatabase.deleteCard(question.getText().toString());
                 allFlashcards = flashcardDatabase.getAllCards();
+                possibleIndex = resetPossibleIndex();
+                if(!possibleIndex.isEmpty()){
+                    flashCardIndex = getRandomIndex();
+                }
+                else {
+                    flashCardIndex = 0;
+                }
+
                 showCard();
 
                 Snackbar.make(findViewById(R.id.screen), "Flashcard deleted", Snackbar.LENGTH_SHORT).show();
@@ -143,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
 
                     public void run() {
-                        btn.setBackgroundColor( getResources().getColor(R.color.light_rose_pink));
+                        btn.setBackgroundColor( getResources().getColor(R.color.lavender));
                         btn.setTextColor(getResources().getColor(R.color.mantee));
                     }
                 }, 1000);
@@ -240,15 +247,6 @@ public class MainActivity extends AppCompatActivity {
             arr.add(i);
         }
         return arr;
-    }
-
-    private void updatePossibleIndex(){
-        for(int i = 0; i < possibleIndex.size(); i++){
-            int current = possibleIndex.get(i);
-            if(current > flashCardIndex){
-                possibleIndex.set(i, current - 1);
-            }
-        }
     }
 
 }

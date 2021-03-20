@@ -4,7 +4,7 @@ This Android application was created as a part of the CodePath Intro to Mobile D
 ## Lab 3
 
 ### App Description
-App stores all cards created and users can click through cards (if there is more than one card) in a randomized order.
+App stores all cards created and app will open on the first card created. If there are no cards, screen shows an empty state where users can click to create a new flashcard. Users can click through cards (if there is more than one card) in a randomized order.
 
 ### App Walk-though
 <img src="walkthroughs/lab-3.gif" width=200><br>
