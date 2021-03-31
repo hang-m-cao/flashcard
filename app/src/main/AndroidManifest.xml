@@ -7,9 +7,9 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:label=""
+        android:label="Flashcard"
         android:theme="@style/Theme.Flashcard">
-        <activity android:name=".EmptyStateActivity"></activity>
+        <activity android:name=".EmptyStateActivity" />
         <activity android:name=".AddCardActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -4,10 +4,10 @@ This Android application was created as a part of the CodePath Intro to Mobile D
 ## Lab 4
 
 ### App Description
-`TODO://` Add app description
+The application now has animation for when the user goes from screen to screen, taps the question and answer card or the correct answer. There is also a timer for 15 seconds, and when time runs out, answer choices will be revealed if they have not been already.
 
 ### App Walk-though
-<img src="YOUR_GIF_URL_HERE" width=200><br>
+<img src="walkthroughs/lab-4.gif" width=200><br>
 
 ## Required
 - [x] User sees a transition animation when going from the main screen to the add card screen.
@@ -66,7 +66,7 @@ Users can now change the current flashcard displayed by adding a new flashcard w
 App displays one question with three answer choices. Correct choice lights up green, and incorrect choices show up as red. There is also the option to hide the choices and click on the question card to show the answer.
 
 ### App Walk-though
-<img src="walkthroughs/codepath-lab-1.gif" width=200><br>
+<img src="walkthroughs/lab-1.gif" width=200><br>
 
 ## Required
 - [x] Create New Project in Android Studio
