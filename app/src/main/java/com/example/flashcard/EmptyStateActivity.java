@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 public class EmptyStateActivity extends AppCompatActivity {
@@ -19,6 +20,7 @@ public class EmptyStateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EmptyStateActivity.this, AddCardActivity.class);
                 EmptyStateActivity.this.startActivityForResult(intent, 1);
+                overridePendingTransition(R.anim.left_in, R.anim.right_out);
             }
         });
     }
@@ -27,10 +29,9 @@ public class EmptyStateActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(data != null){
+            Log.d("empty", "finishing empty state");
             setResult(RESULT_OK, data);
             finish();
         }
-//        intent.putExtra("flashcard", data);
-//        EmptyStateActivity.this.startActivity(intent);
     }
 }

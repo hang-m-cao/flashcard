@@ -2,11 +2,16 @@ package com.example.flashcard;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,6 +20,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private int flashCardIndex;
     private ArrayList<Integer> possibleIndex;
     private ImageButton next;
+    CountDownTimer countDownTimer;
+    ToggleButton viewChoices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +58,62 @@ public class MainActivity extends AppCompatActivity {
         choice2 = findViewById(R.id.choice2);
         choicesShow = false;
         TextView[] choices = new TextView[]{answerChoice, choice1, choice2};
+        viewChoices = findViewById(R.id.view_choices);
 
         next = findViewById(R.id.next);
+
+        final Animation leftOutAnim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.left_out);
+        final Animation rightInAnim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.right_in);
+
+        countDownTimer = new CountDownTimer(16000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                TextView timer = findViewById(R.id.timer);
+                if (millisUntilFinished <= 6000) {
+                    timer.setTextColor(getResources().getColor(R.color.red));
+                }
+                else {
+                    timer.setTextColor(getResources().getColor(R.color.mantee));
+                }
+                timer.setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                if(!choicesShow){
+                    viewChoices.performClick();
+                }
+
+            }
+        };
+
+        question.setCameraDistance(30000);
+        answer.setCameraDistance(30000);
+
+        leftOutAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        flashCardIndex = getRandomIndex();
+                        showCard();
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        question.startAnimation(rightInAnim);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+
+                });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flashCardIndex = getRandomIndex();
-                showCard();
+                question.startAnimation(leftOutAnim);
+                choicesShow = true;
+                viewChoices.setChecked(true);
+                viewChoices.performClick();
             }
         });
 
@@ -76,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 showCard();
-
                 Snackbar.make(findViewById(R.id.screen), "Flashcard deleted", Snackbar.LENGTH_SHORT).show();
             }
         });
@@ -87,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 possibleIndex.add(allFlashcards.size());
                 Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
                 MainActivity.this.startActivityForResult(intent, 1);
+                overridePendingTransition(R.anim.left_in, R.anim.right_out);
             }
         });
 
@@ -104,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         setChoiceClick(choice1, "Incorrect! Try again.", R.color.red);
         setChoiceClick(choice2, "Incorrect! Try again.", R.color.red);
 
-        findViewById(R.id.view_choices).setOnClickListener(new View.OnClickListener(){
+        viewChoices.setOnClickListener(new View.OnClickListener(){
             public int viewVisibility;
             @Override
             public void onClick(View v) {
@@ -125,7 +181,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!choicesShow){
-                    question.setVisibility(View.INVISIBLE);
+
+                    question.animate()
+                            .rotationY(-90)
+                            .setDuration(200)
+                            .withEndAction(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            answer.setVisibility(View.VISIBLE);
+                                            question.setVisibility(View.INVISIBLE);
+
+                                            answer.setRotationY(90);
+                                            answer.animate()
+                                                    .rotationY(0)
+                                                    .setDuration(200)
+                                                    .start();
+                                        }
+                                    }
+                            ).start();
+
                 }
             }
         });
@@ -133,7 +208,24 @@ public class MainActivity extends AppCompatActivity {
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                question.setVisibility(View.VISIBLE);
+                answer.animate()
+                        .rotationY(-90)
+                        .setDuration(200)
+                        .withEndAction(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        question.setVisibility(View.VISIBLE);
+                                        answer.setVisibility(View.INVISIBLE);
+                                        // second quarter turn
+                                        question.setRotationY(90);
+                                        question.animate()
+                                                .rotationY(0)
+                                                .setDuration(200)
+                                                .start();
+                                    }
+                                }
+                        ).start();
             }
         });
 
@@ -147,8 +239,12 @@ public class MainActivity extends AppCompatActivity {
                 btn.setBackgroundColor( getResources().getColor(color));
                 btn.setTextColor(getResources().getColor(R.color.black));
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                if(msg.equals("Correct!")){
+                    new ParticleSystem(MainActivity.this, 100, R.drawable.confetti, 3000)
+                            .setSpeedRange(0.2f, 0.5f)
+                            .oneShot(btn, 100);
+                }
                 new Handler().postDelayed(new Runnable() {
-
                     public void run() {
                         btn.setBackgroundColor( getResources().getColor(R.color.lavender));
                         btn.setTextColor(getResources().getColor(R.color.mantee));
@@ -201,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
             answerChoice.setText(f.getAnswer());
             choice1.setText(f.getWrongAnswer1());
             choice2.setText(f.getWrongAnswer2());
+            startTimer();
         }
     }
 
@@ -217,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
         int old = flashCardIndex;
 
         if(max == 1){
+            possibleIndex = resetPossibleIndex();
             return 0;
         }
         if(possibleIndex.isEmpty()){
@@ -228,6 +326,7 @@ public class MainActivity extends AppCompatActivity {
         while(newIndex == old){
             posIndex = random.nextInt(possibleIndex.size());
             newIndex = possibleIndex.get(posIndex);
+
         }
         possibleIndex.remove(posIndex);
         return newIndex;
@@ -247,6 +346,11 @@ public class MainActivity extends AppCompatActivity {
             arr.add(i);
         }
         return arr;
+    }
+
+    private void startTimer() {
+        countDownTimer.cancel();
+        countDownTimer.start();
     }
 
 }

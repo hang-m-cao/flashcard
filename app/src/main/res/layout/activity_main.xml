@@ -16,13 +16,14 @@
         android:background="@drawable/answer_card"
         android:elevation="5dp"
         android:gravity="center"
-        android:textColor="@color/mantee"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="12sp"
-        app:autoSizeMaxTextSize="40sp"
-        app:autoSizeStepGranularity="2sp"
         android:padding="5dp"
-        android:textStyle="bold" />
+        android:textColor="@color/mantee"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:autoSizeMaxTextSize="40sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform" />
 
     <TextView
         android:id="@+id/question_card"
@@ -36,13 +37,13 @@
         android:background="@drawable/question_card"
         android:elevation="5dp"
         android:gravity="center"
-        android:textColor="@color/mantee"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="12sp"
-        app:autoSizeMaxTextSize="40sp"
-        app:autoSizeStepGranularity="2sp"
         android:padding="5dp"
-        android:textStyle="bold" />
+        android:textColor="@color/mantee"
+        android:textStyle="bold"
+        app:autoSizeMaxTextSize="40sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform" />
 
     <TextView
         android:id="@+id/choice1"
@@ -51,7 +52,7 @@
         android:layout_below="@id/question_card"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="55dp"
         android:background="@color/lavender"
         android:gravity="center"
         android:textColor="@color/mantee"
@@ -148,5 +149,15 @@
         android:layout_marginBottom="30dp"
         android:background="@color/white"
         app:srcCompat="@drawable/ic_plus_icon" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/question_card"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="150dp"
+        android:gravity="center"/>
 
 </RelativeLayout>

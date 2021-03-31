@@ -43,6 +43,7 @@ public class AddCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
 
@@ -53,7 +54,6 @@ public class AddCardActivity extends AppCompatActivity {
                 String questionText = question.getText().toString();
 
                 if(emptyIndex == -1 && !questionText.isEmpty()){
-//                    Intent intent = new Intent(AddCardActivity.this, MainActivity.class);
                     Intent intent = getIntent();
                     intent.putExtra("question", questionText);
                     intent.putExtra("options", getOptionText(options));
